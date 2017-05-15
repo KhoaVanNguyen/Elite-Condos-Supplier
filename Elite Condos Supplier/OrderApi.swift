@@ -59,7 +59,7 @@ class OrderApi{
 //        let currentId = Api.User.currentUid()
 //        FirRef.ORDERS.child(id).removeValue()
 //        FirRef.SUPPLIER_ORDERS.child(currentId).child(id).removeValue()
-        FirRef.ORDERS.child(id).updateChildValues(["status": ORDER_STATUS.CANCEL.hashValue])
+        FirRef.ORDERS.child(id).updateChildValues(["status": ORDER_STATUS.REJECTED.hashValue])
         onSuccess()
     }
     

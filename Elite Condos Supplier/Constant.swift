@@ -51,6 +51,7 @@ enum ORDER_STATUS{
     case ONGOING
     case CANCEL
     case FINISHED
+    case REJECTED
 }
 
 enum SERVICE_TYPE{
