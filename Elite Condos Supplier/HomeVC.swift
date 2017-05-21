@@ -19,6 +19,10 @@ class HomeVC: UIViewController {
     var isOnGoingClicked = true
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        if token != "" {
+//            FirRef.SUPPLIERS.child(Api.User.currentUid()).updateChildValues(["token": token])
+//        }
         tableView.delegate = self
         tableView.dataSource = self
         if self.revealViewController() != nil{

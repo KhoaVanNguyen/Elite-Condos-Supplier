@@ -2,8 +2,8 @@
 //  OrderApi.swift
 //  Elite Condos Supplier
 //
-//  Created by Khoa on 4/14/17.
-//  Copyright © 2017 Khoa. All rights reserved.
+//  Created by Hien on 4/14/17.
+//  Copyright © 2017 Hien. All rights reserved.
 //
 
 import Foundation

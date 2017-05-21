@@ -27,6 +27,7 @@ let SUPPLIER_ID = "SUPPLIER_ID"
 let USER_ID = "USER_ID"
 
 var userId = ""
+var token = ""
 //Fuctions:
 func getCurrentTime() -> String{
     let dateFormatter = DateFormatter()
