@@ -17,12 +17,17 @@ class HomeVC: UIViewController {
     
     var orders = [Order]()
     var isOnGoingClicked = true
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let token = UserDefaults.standard.value(forKey: "token") as? String{
+            Api.User.updateTokenToDatabase(token: token, onSuccess: {
+                print("Update token in HomeVC with: \(token)")
+            })
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        if token != "" {
-//            FirRef.SUPPLIERS.child(Api.User.currentUid()).updateChildValues(["token": token])
-//        }
         tableView.delegate = self
         tableView.dataSource = self
         if self.revealViewController() != nil{
@@ -35,10 +40,7 @@ class HomeVC: UIViewController {
         fetchNewOrders()
 
     }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        
-    }
+    
     // MARK: Functions
     
     func fetchOrders(orderStatus: Int){

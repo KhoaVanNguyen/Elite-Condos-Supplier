@@ -53,6 +53,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
+        UIApplication.shared.applicationIconBadgeNumber = 0
         connectToFCM()
            }
 
@@ -61,32 +62,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func tokenRefreshNotification(notification: NSNotification) {
-        let refreshedToken = FIRInstanceID.instanceID().token()
-        print("InstanceID token: \(refreshedToken)")
-        
-        connectToFCM()
+        if let token = FIRInstanceID.instanceID().token(){
+            Api.User.updateTokenToDatabase(token: token, onSuccess: {
+                UserDefaults.standard.setValue(token, forKey: "token")
+                print("token in didRegister: \(token)")
+                self.connectToFCM()
+            })
+            
+        }
     }
     func application(_ application: UIApplication, didRegister notificationSettings: UIUserNotificationSettings) {
-        if let refreshToken = FIRInstanceID.instanceID().token(){
-            print("Token ID: \(refreshToken)")
-            token = refreshToken
-            connectToFCM()
+        
+        if let token = FIRInstanceID.instanceID().token(){
+            Api.User.updateTokenToDatabase(token: token, onSuccess: {
+                UserDefaults.standard.setValue(token, forKey: "token")
+                print("token in didRegister: \(token)")
+                self.connectToFCM()
+            })
+            
         }
     }
     func connectToFCM() {
         FIRMessaging.messaging().connect { (error) in
             
             if (error != nil) {
-                print("Unable to connect to FCM \(error)")
+                print("Unable to connect to FCM \(error.debugDescription)")
             } else {
                 print("Connected to FCM")
-                if let user = FIRAuth.auth()?.currentUser {
-                    FirRef.SUPPLIERS.child(user.uid).updateChildValues(["token": token])
-                }
+                
             }
         }
     }
-
 
 
 }

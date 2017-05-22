@@ -10,6 +10,17 @@ import Foundation
 import Firebase
 class UserApi{
     
+    
+    
+    // update user token
+    func updateTokenToDatabase(token: String, onSuccess: @escaping () -> Void){
+        if let user = FIRAuth.auth()?.currentUser {
+            FirRef.SUPPLIERS.child(user.uid).updateChildValues(["token": token])
+            onSuccess()
+        }
+    }
+    
+    
     var CURRENT_USER: FIRUser?{
         if let currentUser = FIRAuth.auth()?.currentUser{
             return currentUser
@@ -19,7 +30,6 @@ class UserApi{
     func currentUid() -> String{
         
         let currentUser = FIRAuth.auth()?.currentUser
-        
         return (currentUser?.uid)!
         
     }
