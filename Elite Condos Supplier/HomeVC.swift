@@ -9,14 +9,45 @@
 import UIKit
 import Firebase
 import ProgressHUD
+
+/**
+ 
+ List all orders of a user ( customer ) base on status. User can click on different buttons to change the order's status.
+ - Author: Khoa Nguyen
+ 
+ */
+
+
 class HomeVC: UIViewController {
+    
+    /**
+     UITableView
+     - Author: Khoa Nguyen
+     
+     */
+    
+    
     @IBOutlet weak var tableView: UITableView!
+    /**
+     Mennu bar button
+     - Author: Khoa Nguyen
+     
+     */
     
-    @IBOutlet weak var noOrderLbl: UILabel!
     @IBOutlet weak var menuBarButton: UIBarButtonItem!
-    
+    /**
+     List of orders. We will download orders from Firebase and store to this variable
+     - Author: Khoa Nguyen
+     
+     */
     var orders = [Order]()
-    var isOnGoingClicked = true
+    /**
+     
+     The built-in function of UIViewController. This function executes before a screen was loaded
+     
+     - Author: Khoa Nguyen
+     
+     */
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if let token = UserDefaults.standard.value(forKey: "token") as? String{
@@ -25,7 +56,14 @@ class HomeVC: UIViewController {
             })
         }
     }
-
+    
+    /**
+     
+     The built-in function of UIViewController. This function executes after a screen was loaded
+     
+     - Author: Khoa Nguyen
+     
+     */
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
@@ -41,7 +79,12 @@ class HomeVC: UIViewController {
 
     }
     
-    // MARK: Functions
+    /**
+     Fetch orders base on their status. Then refresh tableview to show new data.
+     - Parameter orderStatus: The status of order
+     - Author: Khoa Nguyen
+     
+     */
     
     func fetchOrders(orderStatus: Int){
          let currenId = Api.User.currentUid()
@@ -76,6 +119,11 @@ class HomeVC: UIViewController {
         })
     }
     
+    /**
+     Fetch order that has status: NOTACCEPTED
+     - Author: Khoa Nguyen
+     
+     */
     
     func fetchNewOrders(){
         
@@ -106,22 +154,51 @@ class HomeVC: UIViewController {
 
     }
     
-    
+    /**
+     Reload tableview with new orders with status: ***NOTACCEPTED***
+     - Parameter sender: The button when the user presses
+     - Author: Khoa Nguyen
+     
+     */
     @IBAction func newBtn_TouchInside(_ sender: Any) {
         fetchNewOrders()
     }
+    
+    /**
+     Reload tableview with new orders with status: ***ONGOING***
+     - Parameter sender: The button when the user presses
+     - Author: Khoa Nguyen
+     
+     */
     @IBAction func ongoingBtn(_ sender: Any) {
         fetchOrders(orderStatus: ORDER_STATUS.ONGOING.hashValue)
     }
     
+    /**
+     Reload tableview with new orders with status: ***CANCEL***
+     - Parameter sender: The button when the user presses
+     - Author: Khoa Nguyen
+     
+     */
     @IBAction func cancelBtn(_ sender: Any) {
         fetchOrders(orderStatus: ORDER_STATUS.CANCEL.hashValue)
     }
-    
+    /**
+     Reload tableview with new orders with status: ***FINISHED***
+     - Parameter sender: The button when the user presses
+     - Author: Khoa Nguyen
+     
+     */
     @IBAction func finishBtn(_ sender: Any) {
         fetchOrders(orderStatus: ORDER_STATUS.FINISHED.hashValue)
     }
-    
+    /**
+     Prepare data and logic code when it's about to move to next screen
+     - Parameter segue: From this screen, we just can go to PriceTagVC or OrderDetailVC
+     - Parameter sender: sender will be a Dictionary with order's data
+     - Author: Khoa Nguyen
+     
+     */
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "HomeToPriceTag"{
             if let priceTagVC = segue.destination as? PriceTagVC{
@@ -142,6 +219,13 @@ class HomeVC: UIViewController {
     
 }
 extension HomeVC: UITableViewDelegate{
+    /**
+     
+     The built-in function of UITableViewDelegate. This function executes when user clicks on a specific row.
+     
+     - Author: Khoa Nguyen
+     
+     */
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let status = orders[indexPath.row].status
         
@@ -152,14 +236,14 @@ extension HomeVC: UITableViewDelegate{
             
             let cancel = UIAlertAction(title: "Từ chối đơn hàng", style: .default, handler: { action in
                 // cancel api here - reload tableview
-                Api.Order.denyOrder(at: self.orders[indexPath.row].id, onSuccess: {
+                Api.Order.denyOrder(at: self.orders[indexPath.row].id!, onSuccess: {
                     print("OK")
                 })
             })
             
             let accept = UIAlertAction(title: "Đồng ý đơn hàng", style: .default, handler: { action in
                 
-                Api.Order.acceptOrder(at: self.orders[indexPath.row].id, onSuccess: {
+                Api.Order.acceptOrder(at: self.orders[indexPath.row].id!, onSuccess: {
                     
                 })
                 
@@ -176,7 +260,7 @@ extension HomeVC: UITableViewDelegate{
             
             let cancel = UIAlertAction(title: "Hủy đơn hàng", style: .default, handler: { action in
                 // cancel api here - reload tableview
-                Api.Order.cancelOrder(at: self.orders[indexPath.row].id, onSuccess: { 
+                Api.Order.cancelOrder(at: self.orders[indexPath.row].id!, onSuccess: { 
                     
                 })
             })
@@ -194,13 +278,41 @@ extension HomeVC: UITableViewDelegate{
     }
 }
 extension HomeVC: UITableViewDataSource{
-    // MARK: Tableview
+    
+    /**
+     
+     The built-in function of UITableViewDataSource. This function determines
+     the number of section in the tableview
+     
+     - Author: Khoa Nguyen
+     
+     */
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
+    
+    /**
+     
+     The built-in function of UITableViewDataSource. This function determines
+     the number of rows in a section in the tableview
+     
+     - Author: Khoa Nguyen
+     
+     */
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return orders.count
     }
+    
+    /**
+     
+     The built-in function of UITableViewDataSource. This function determines
+     what UIs will be displayed in a row in the tableview
+     
+     - Author: Khoa Nguyen
+     
+     */
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "OrderCell", for: indexPath) as!
         OrderCell
@@ -212,10 +324,27 @@ extension HomeVC: UITableViewDataSource{
 
 }
 extension HomeVC: OrderCellDelegate{
-    
+    /**
+     
+     Load an order detail base on order's id
+     - Parameter orderId: Order's Id
+     
+     - Author: Khoa Nguyen
+     
+     */
     func moveToDetail(orderId: String) {
         performSegue(withIdentifier: "HomeToOrderDetail", sender: orderId)
     }
+    
+    /**
+     
+     Deny (reject ) an order.
+     - Parameter orderId: Order's Id
+     
+     - Author: Khoa Nguyen
+     
+     */
+    
     func denyOrder(orderId: String) {
         Api.Order.denyOrder(at: orderId) { 
             self.fetchOrders(orderStatus: ORDER_STATUS.CANCEL.hashValue)

@@ -43,12 +43,12 @@ class OrderDetailVC: UIViewController {
             
             let customerId = order.customerId
             
-            Api.User.getUserLocation(userId: customerId, onSuccess: { (lat, long) in
+            Api.User.getUserLocation(userId: customerId!, onSuccess: { (lat, long) in
                 self.lat = lat
                 self.long = long
             })
             
-            Api.Order.getCustomerName(id: order.customerId) { (name) in
+            Api.Order.getCustomerName(id: order.customerId!) { (name) in
                 self.customerName = name
             }
             
