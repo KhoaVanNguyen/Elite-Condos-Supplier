@@ -36,13 +36,13 @@ class ServiceApi {
             return
         }
         
-        FirRef.SERVICES.child(service.id).updateChildValues([
+        FirRef.SERVICES.child(service.id!).updateChildValues([
             "name": service.name
             ])
-        FirRef.SERVICES.child(service.id).child("suppliers").updateChildValues([
+        FirRef.SERVICES.child(service.id!).child("suppliers").updateChildValues([
             supplierID: true])
         
-        FirRef.SUPPLIER_SERVICES.child(supplierID).child(service.id).setValue(true)
+        FirRef.SUPPLIER_SERVICES.child(supplierID).child(service.id!).setValue(true)
         
         onSuccess()
     }
@@ -53,7 +53,7 @@ class ServiceApi {
             return
         }
         FirRef.SUPPLIER_SERVICES.child(supplierID).observeSingleEvent(of: .value, with: { (snapshot) in
-            if snapshot.hasChild(service.id){
+            if snapshot.hasChild(service.id!){
                 onFound()
                 print("on found")
             }
@@ -68,8 +68,8 @@ class ServiceApi {
 //            onError("Can't find supplier")
             return
         }
-        FirRef.SUPPLIER_SERVICES.child(supplierID).child(service.id).removeValue()
-        FirRef.SERVICES.child(service.id).child("suppliers").child(supplierID).removeValue()
+        FirRef.SUPPLIER_SERVICES.child(supplierID).child(service.id!).removeValue()
+        FirRef.SERVICES.child(service.id!).child("suppliers").child(supplierID).removeValue()
         onDeleted()
 
     }

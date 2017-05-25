@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Elite Condos Supplier/HomeVC.swift"
-            timestampString = "517108392.602634"
+            timestampString = "517330657.239621"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "216"
-            endingLineNumber = "216"
+            startingLineNumber = "335"
+            endingLineNumber = "335"
             landmarkName = "moveToDetail(orderId:)"
             landmarkType = "7">
          </BreakpointContent>
