@@ -11,13 +11,25 @@ import UIKit
 import UIKit
 import ProgressHUD
 class PasswordUpdateVC: UIViewController {
+    /**
+     TextField điền mật khẩu mới
+     - Author: Hoang Phan
+     */
     @IBOutlet weak var passwordTF: FancyField!
     
+    /**
+     Hàm mặc định của swift, load xong sẽ thực hiện
+     - Author: Hoang Phan
+     */
     override func viewDidLoad() {
         super.viewDidLoad()
         
         
     }
+    /**
+     Button khi ấn vào button mật khẩu sẽ được thay đổi.
+     - Author: Hoang Phan
+     */
     @IBAction func updatePassword_TouchInside(_ sender: Any) {
         guard let password = passwordTF.text, password != "" else {
             showAlert(title: APP_NAME, message: "Vui lòng nhập mật khẩu mới")
@@ -25,7 +37,7 @@ class PasswordUpdateVC: UIViewController {
         }
         
         
-        
+
         updatePassword(password: password, onError: { (error) in
             self.showAlert(title: APP_NAME, message: error)
         }) {
@@ -40,7 +52,13 @@ class PasswordUpdateVC: UIViewController {
             
         }
     }
-    
+    /**
+     Hàm cập nhật lại mật khẩu.
+     - Author: Hoang Phan
+     - Parameter password: Mật khẩu từ TextField
+     - Parameter onError: Hàm lấy lỗi về để hiển thị
+     - Parameter onSuccess: Nếu thành công thì cập nhật mật khẩu lên dữ liệu
+     */
     func updatePassword(password: String, onError: @escaping (String) -> Void,
                         onSuccess: @escaping () -> Void){
         Api.User.updatePassword(password: password) { (error) in
@@ -51,7 +69,10 @@ class PasswordUpdateVC: UIViewController {
         onSuccess()
         
     }
-    
+    /**
+     Hàm mặc định của swift, hiển thị thông báo
+     - Author: Hoang Phan
+     */
     func showAlert(title: String, message : String){
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)

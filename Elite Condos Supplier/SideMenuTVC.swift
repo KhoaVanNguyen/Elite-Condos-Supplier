@@ -2,17 +2,34 @@
 //  SupplierMenuTVC.swift
 //  Elite Condos
 //
-//  Created by Khoa on 11/16/16.
-//  Copyright © 2016 Khoa. All rights reserved.
+//  Created by Hoang on 11/16/16.
+//  Copyright © 2016 Hoang. All rights reserved.
 //
 
 import UIKit
 import Firebase
 class SideMenuTVC: UITableViewController {
     
+    /**
+     UITableViewCell lưu thông tin của Side Menu (Đơn hàng, Nhận xét, Cài đặt dịch vụ, Đăng xuất)
+     - Author: Hoang Phan
+     */
     @IBOutlet weak var statisticsCell: UITableViewCell!
+    
+    /**
+     Label lưu tên của công ty
+     - Author: Hoang Phan
+     */
     @IBOutlet weak var serviceNameLbl: UILabel!
+    /**
+     Logo, hình đại diện công ty
+     - Author: Hoang Phan
+     */
     @IBOutlet weak var logoImage: CircleImage!
+    /**
+     Hàm mặc định của swift, load xong thì thực hiện
+     - Author: Hoang Phan
+     */
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(red: 48/255, green: 49/255, blue: 77/255, alpha: 1.0)
@@ -64,11 +81,19 @@ class SideMenuTVC: UITableViewController {
     //        statisticsCell.isUserInteractionEnabled = true
     //
     //    }
+    
+    /**
+     Thông báo tính năng đang được xây dựng.
+     - Author: Hoang Phan
+     */
     func showBetaMessage(){
         showAlert(title: APP_NAME, message: "Oops, Tính năng đang được xây dựng!")
     }
     
-    
+    /**
+     Hiển thị thông báo
+     - Author: Hoang Phan
+     */
     func showAlert(title: String, message : String){
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -81,7 +106,10 @@ class SideMenuTVC: UITableViewController {
         
     }
     
-    
+    /**
+     Hàm di chuyển qua menu User setting
+     - Author: Hoang Phan
+     */
     @IBAction func goToUserSettings(_ sender: Any) {
         
         performSegue(withIdentifier: "MenuToUserSettings", sender: nil)
@@ -91,7 +119,10 @@ class SideMenuTVC: UITableViewController {
     }
     
     
-    
+    /**
+     Hàm đăng xuất
+     - Author: Hoang Phan
+     */
     @IBAction func logoutBtn(_ sender: Any) {
         
         AuthService.logout(onSuccess: {
