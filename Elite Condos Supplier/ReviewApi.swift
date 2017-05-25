@@ -8,10 +8,22 @@
 
 import Foundation
 import Firebase
+
+/**
+ All the network code related to review.
+ - Author: Nguyen Hien
+ 
+ */
+
 class ReviewApi {
     
     
-    
+    /**
+     observe  review
+     - Parameter onSuccess: The function executes after observing service
+     - Author: Nguyen Hien
+     
+     */
     func observeReview(onSuccess: @escaping (Review) -> Void){
         let currentId = Api.User.currentUid()
         FirRef.SUPPLIER_REVIEWS.child(currentId).observe(.value, with: {
@@ -25,7 +37,7 @@ class ReviewApi {
                         let review = Review(id: snap.key, data: dict)
                         onSuccess(review)
                     }
-                
+                    
                 } )
                 
                 

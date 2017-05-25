@@ -8,6 +8,13 @@
 
 import Foundation
 import Firebase
+
+/**
+ We follow MVC model.
+ This class is for data model: Supplier
+ - Author: Khoa Nguyen
+ 
+ */
 class Supplier {
     
     private var _id : String!
@@ -17,31 +24,71 @@ class Supplier {
     private var _logo : String!
     private var _serviceRef : FIRDatabaseReference!
     
+    
+    /**
+     Supplier's name
+     - Author: Khoa Nguyen
+     
+     */
     var name : String{
         if _name == nil{
             return "NO NAME"
         }
         return _name
     }
+    /**
+     Supplier's address
+     - Author: Khoa Nguyen
+     
+     */
     var address : String{
         return _address
     }
+    
+    /**
+     Supplier's description
+     - Author: Khoa Nguyen
+     
+     */
     var description : String{
         return _description
     }
+    
+    /**
+     Supplier's logo
+     - Author: Khoa Nguyen
+     
+     */
     var logo : String{
         if _logo == nil{
             return ""
         }
         return _logo
     }
-    
+    /**
+     Supplier's id
+     - Author: Khoa Nguyen
+     
+     */
     var id : String{
         return _id
     }
+    /**
+     Supplier's serviceRef
+     - Author: Khoa Nguyen
+     
+     */
     var serviceRef : FIRDatabaseReference{
         return _serviceRef
     }
+    
+    /**
+     The constructor.
+     - Parameter id: The id of supplier
+     - Parameter data: A ***Dictionary*** with supplier's data. We need to unwrap it.
+     - Author: Khoa Nguyen
+     
+     */
     init(id : String, data : Dictionary<String, Any>) {
         self._id = id
         if let name = data["name"] as? String{

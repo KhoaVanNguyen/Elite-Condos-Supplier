@@ -13,7 +13,7 @@ import ProgressHUD
 
 
 /**
- This class allows user to change email, passwod,,,
+ This class allows user to change email, password,,,
 
  - Author: Hoang
  

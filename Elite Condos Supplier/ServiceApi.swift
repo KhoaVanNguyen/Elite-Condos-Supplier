@@ -9,8 +9,21 @@
 
 import Foundation
 import Firebase
+
+/**
+ All the network code related to service .
+ - Author: Nguyen Hien
+ 
+ */
+
 class ServiceApi {
-    
+    /**
+     observe  service
+     - Parameter onSuccess: The function executes after observing service
+     - Parameter onError: The function execute when can not observe service
+     - Author: Nguyen Hien
+     
+     */
     func observeService(onSuccess: @escaping (Service) -> Void, onError: @escaping (String) -> Void){
         guard let supplierID = Api.User.CURRENT_USER?.uid else {
             onError("Can't find supplier")
@@ -29,6 +42,14 @@ class ServiceApi {
         
     }
     
+    /**
+     user can subscribe  service
+     - Parameter service:
+     - Parameter onSuccess: The function executes after subscribing service
+     - Parameter onError: The function execute when can not subscribe service
+     - Author: Nguyen Hien
+     
+     */
     func subscribe(service: ServiceData, onSuccess: @escaping () -> Void, onError: @escaping (String) -> Void ){
         
         guard let supplierID = Api.User.CURRENT_USER?.uid else {
@@ -46,6 +67,16 @@ class ServiceApi {
         
         onSuccess()
     }
+    
+    /**
+     Check whether the service exists or not
+     - Parameter service:Service's database
+     - Parameter onFound: The function executes when  service on found
+     - Parameter notFound: The function executes when  service not found
+     - Parameter onError: The function execute when can not check
+     - Author: Nguyen Hien
+     
+     */
     func checkExist(service: ServiceData, onFound:  @escaping  () -> Void, notFound:  @escaping  () -> Void, onError: @escaping (String) -> Void ){
         
         guard let supplierID = Api.User.CURRENT_USER?.uid else {
@@ -63,17 +94,33 @@ class ServiceApi {
             }
         })
     }
+    
+    /**
+     delete service
+     - Parameter service:Service's database
+     - Parameter onDeleted: The function executes when  service on found
+     - Author: Nguyen Hien
+     
+     */
+    
     func deleteService(service: ServiceData, onDeleted:  @escaping  () -> Void){
         guard let supplierID = Api.User.CURRENT_USER?.uid else {
-//            onError("Can't find supplier")
+            //            onError("Can't find supplier")
             return
         }
         FirRef.SUPPLIER_SERVICES.child(supplierID).child(service.id!).removeValue()
         FirRef.SERVICES.child(service.id!).child("suppliers").child(supplierID).removeValue()
         onDeleted()
-
+        
     }
- 
+    
+    /**
+     get service's date
+     - Parameter serviceId :Service's ID
+     - Parameter onSuccess: The function executes affter getting service's data
+     - Author: Nguyen Hien
+     
+     */
     func getServiceData(serviceId: String, onSuccess: @escaping (Service) -> Void){
         FirRef.SERVICES.child(serviceId).observe(.value, with: { (serviceSnap) in
             print("serviceId: \(serviceId)")
