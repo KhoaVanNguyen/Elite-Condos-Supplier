@@ -10,26 +10,87 @@ import UIKit
 
 import UIKit
 import ProgressHUD
+
+
+/**
+ This class allows user to change email, passwod,,,
+
+ - Author: Hoang
+ 
+ */
+
 class AccountVC: UIViewController {
+    
+    /**
+   Biến này để lưu avatar của user
+     
+     - Author: Hoang Phan
+    
+    */
     @IBOutlet weak var avatarImg: CircleImage!
+    
+    /**
+     Biến này gõ tên của user
+     
+     - Author: Hoang Phan
+     
+     */
+    
     @IBOutlet weak var nameTF: FancyField!
     
+    /**
+     Biến này để gõ số điện thoại của user
+     
+     - Author: Hoang Phan
+     
+     */
+    
     @IBOutlet weak var phoneTF: FancyField!
+    
+    /**
+     Biến này để gõ email của user
+     
+     - Author: Hoang Phan
+     
+     */
+    
     @IBOutlet weak var emailTF: FancyField!
     
+    /**
+     Để chọn hình ảnh
+     
+     - Author: Hoang Phan
+     
+     */
+    
     var imagePicker : UIImagePickerController!
+    
+    /**
+     Hàm mặc định của swift, đã load rồi thì thực hiện
+     
+     - Author: Hoang Phan
+     
+     */
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         imagePicker = UIImagePickerController()
+        
         imagePicker.delegate = self
         imagePicker.allowsEditing = true
         
         
         let tapped = UITapGestureRecognizer(target: self, action: #selector(changeAvatar))
+        
         avatarImg.addGestureRecognizer(tapped)
         avatarImg.isUserInteractionEnabled = true
         
-        
+        /**
+         Trở về màn hình trước
+         
+         - Author: Hoang Phan
+         
+         */
         let backItem = UIBarButtonItem()
         backItem.title = ""
         navigationItem.backBarButtonItem = backItem
@@ -49,6 +110,10 @@ class AccountVC: UIViewController {
         
         
     }
+    /**
+     Hàm mặc định của swift, trước khi load thì thực hiện
+     - Author: Hoang Phan
+     */
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         ProgressHUD.show("")
@@ -69,26 +134,44 @@ class AccountVC: UIViewController {
         emailTF.delegate = self
         
     }
-    
+    /**
+     Hàm thay đổi avatar
+     - Author: Hoang Phan
+     */
     func changeAvatar(){
         present(imagePicker, animated: true, completion: nil)
     }
-    
+    /**
+     Hàm update lại UI
+     - Author: Hoang Phan
+     - Parameter name: tên của công ty
+     - Parameter email: email của công ty
+     - Parameter phone: số điện thoại của công ty
+     */
     func updateUI(name: String, email: String, phone: String){
         nameTF.text = name
         emailTF.text = email
         phoneTF.text = phone
     }
-    
+    /**
+     Chạm ra ngoài, thì tắt bàn phím (editting), hàm mặc định
+     - Author: Hoang Phan
+     */
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
     
-    
+    /**
+     Hàm tắt màn hình cập nhật thông tin
+     - Author: Hoang Phan
+     */
     @IBAction func backBtnPressed(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
-    
+    /**
+     Hàm đăng xuất khỏi app
+     - Author: Hoang Phan
+     */
     @IBAction func signOut_TouchInside(_ sender: Any) {
         Api.User.signOut(onSuccess: {
             let storyboard = UIStoryboard.init(name: "Start", bundle: nil)
@@ -99,7 +182,10 @@ class AccountVC: UIViewController {
         }
         
     }
-    
+    /**
+     Hàm hiển thị thông báo
+     - Author: Hoang Phan
+     */
     func showAlert(title: String, message : String){
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -117,6 +203,12 @@ class AccountVC: UIViewController {
 
 extension AccountVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
+    /**
+     Hàm chọn hình hiển thị
+     - Author: Hoang Phan
+     - Parameter picker: chọn hình
+     - Parameter didFinishPickingMediaWithInfo: thông tin của hình đã được chọn
+     */
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let img = info[UIImagePickerControllerEditedImage] as? UIImage{
             
@@ -143,6 +235,14 @@ extension AccountVC: UIImagePickerControllerDelegate, UINavigationControllerDele
 
 
 extension AccountVC: UITextFieldDelegate{
+    
+    /**
+     Có nhấn vào phím Return hay không?
+     - Parameter textField: Một trong 3 text field nameTF, phoneTF, emailTF.
+     - Returns: Bool, Trả về có nhấn vào phím return or không
+     - Author: Hoang
+     
+     */
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         nameTF.resignFirstResponder()
@@ -150,7 +250,12 @@ extension AccountVC: UITextFieldDelegate{
         emailTF.resignFirstResponder()
         return true
     }
-    
+    /**
+     Text field đã được chỉnh sửa xong.
+     - Parameter textField: Một trong 3 text field nameTF, phoneTF, emailTF.
+     - Author: Hoang
+     
+     */
     func textFieldDidEndEditing(_ textField: UITextField) {
         
         ProgressHUD.show("Updating...")
